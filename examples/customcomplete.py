@@ -16,7 +16,7 @@ PREAMBLE = {
     "bash": """
 # $1=COMP_WORDS[1]
 _shtab_greeter_compgen_TXTFiles() {
-  compgen -d -S '/' -- $1  # recurse into subdirs
+  compgen -d -- $1  # recurse into subdirs
   compgen -f -X '!*?.txt' -- $1
   compgen -f -X '!*?.TXT' -- $1
 }
@@ -40,7 +40,9 @@ def get_main_parser():
     subparsers.dest = "subcommand"
 
     parser = subparsers.add_parser("completion")
-    shtab.add_argument_to(parser, "shell", parent=main_parser)  # magic!
+    shtab.add_argument_to(
+        parser, "shell", parent=main_parser, preamble=PREAMBLE
+    )  # magic!
 
     parser = subparsers.add_parser("process")
     # `*.txt` file tab completion
